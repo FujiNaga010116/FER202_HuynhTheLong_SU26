@@ -1,0 +1,52 @@
+import { Container, Row, Col, Card, Button, Badge, ListGroup } from 'react-bootstrap';
+import { useAuth } from '../hooks/useAuth';
+
+function Dashboard() {
+  const { state, dispatch } = useAuth();
+  const { user } = state;
+
+  const roleBadge = user.role === 'admin' ? 'danger' : 'success';
+
+  return (
+    <Container className="mt-5">
+      <Row className="justify-content-center">
+        <Col xs={12} sm={8} md={5}>
+          <Card className="shadow-sm text-center">
+            <Card.Header className="bg-success text-white py-3">
+              <h4 className="mb-0">Xin chào, {user.name} 👋</h4>
+            </Card.Header>
+
+            <Card.Body className="p-4">
+              <ListGroup variant="flush" className="text-start mb-4">
+                <ListGroup.Item>
+                  <strong>ID:</strong> {user.id}
+                </ListGroup.Item>
+                <ListGroup.Item>
+                  <strong>Username:</strong> {user.username}
+                </ListGroup.Item>
+                <ListGroup.Item>
+                  <strong>Role:</strong>{' '}
+                  <Badge bg={roleBadge}>
+                    {user.role}
+                  </Badge>
+                </ListGroup.Item>
+              </ListGroup>
+
+              <div className="d-grid">
+                <Button
+                  variant="outline-danger"
+                  size="lg"
+                  onClick={() => dispatch({ type: 'LOGOUT' })}
+                >
+                  Đăng xuất
+                </Button>
+              </div>
+            </Card.Body>
+          </Card>
+        </Col>
+      </Row>
+    </Container>
+  );
+}
+
+export default Dashboard;
