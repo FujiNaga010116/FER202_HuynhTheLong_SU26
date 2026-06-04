@@ -1,16 +1,23 @@
+// src/App.jsx
 import { useAuth } from './hooks/useAuth';
+import AppNavbar from './components/AppNavbar';
 import LoginPage from './pages/LoginPage';
 import DashboardPage from './pages/DashboardPage';
-import AppNavbar from './components/AppNavbar';
 
 function App() {
   const { state } = useAuth();
 
   return (
-    <div>
-      {state.isAuthenticated && <AppNavbar />}
-      {state.isAuthenticated ? <DashboardPage /> : <LoginPage />}
-    </div>
+    <>
+      {state.isAuthenticated ? (
+        <>
+          <AppNavbar />
+          <DashboardPage />
+        </>
+      ) : (
+        <LoginPage />
+      )}
+    </>
   );
 }
 

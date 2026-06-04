@@ -1,3 +1,4 @@
+// src/pages/DashboardPage.jsx
 import Dashboard from '../components/Dashboard';
 
 function DashboardPage() {

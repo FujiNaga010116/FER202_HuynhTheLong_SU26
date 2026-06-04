@@ -1,3 +1,4 @@
+// src/components/LoginForm.jsx
 import { useState } from 'react';
 import { Container, Row, Col, Card, Form, Button, Alert } from 'react-bootstrap';
 import { useAuth } from '../hooks/useAuth';
@@ -29,14 +30,12 @@ function LoginForm() {
             <Card.Header className="bg-primary text-white text-center py-3">
               <h4 className="mb-0">Đăng nhập</h4>
             </Card.Header>
-
             <Card.Body className="p-4">
               {state.error && (
                 <Alert variant="danger">
                   {state.error}
                 </Alert>
               )}
-
               <Form onSubmit={handleSubmit}>
                 <Form.Group className="mb-3" controlId="username">
                   <Form.Label>Username</Form.Label>
@@ -49,7 +48,6 @@ function LoginForm() {
                     required
                   />
                 </Form.Group>
-
                 <Form.Group className="mb-4" controlId="password">
                   <Form.Label>Password</Form.Label>
                   <Form.Control
@@ -61,7 +59,6 @@ function LoginForm() {
                     required
                   />
                 </Form.Group>
-
                 <div className="d-grid">
                   <Button variant="primary" type="submit" size="lg">
                     Đăng nhập

@@ -1,6 +1,5 @@
+// src/context/AuthContext.jsx
 import { createContext, useReducer } from 'react';
-
-export const AuthContext = createContext(null);
 
 const initialState = {
   isAuthenticated: false,
@@ -20,6 +19,8 @@ function authReducer(state, action) {
       return state;
   }
 }
+
+export const AuthContext = createContext(null);
 
 export function AuthProvider({ children }) {
   const [state, dispatch] = useReducer(authReducer, initialState);

@@ -1,3 +1,4 @@
+// src/pages/LoginPage.jsx
 import LoginForm from '../components/LoginForm';
 
 function LoginPage() {

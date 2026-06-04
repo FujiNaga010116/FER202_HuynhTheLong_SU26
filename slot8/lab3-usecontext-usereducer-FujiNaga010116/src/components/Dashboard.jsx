@@ -1,9 +1,12 @@
+// src/components/Dashboard.jsx
 import { Container, Row, Col, Card, Button, Badge, ListGroup } from 'react-bootstrap';
 import { useAuth } from '../hooks/useAuth';
 
 function Dashboard() {
   const { state, dispatch } = useAuth();
   const { user } = state;
+
+  if (!user) return null;
 
   const roleBadge = user.role === 'admin' ? 'danger' : 'success';
 
@@ -15,8 +18,13 @@ function Dashboard() {
             <Card.Header className="bg-success text-white py-3">
               <h4 className="mb-0">Xin chào, {user.name} 👋</h4>
             </Card.Header>
-
             <Card.Body className="p-4">
+              <div
+                className="rounded-circle bg-secondary text-white d-flex align-items-center justify-content-center mx-auto mb-3"
+                style={{ width: 72, height: 72, fontSize: 28 }}
+              >
+                {user.name.charAt(0).toUpperCase()}
+              </div>
               <ListGroup variant="flush" className="text-start mb-4">
                 <ListGroup.Item>
                   <strong>ID:</strong> {user.id}
@@ -26,12 +34,11 @@ function Dashboard() {
                 </ListGroup.Item>
                 <ListGroup.Item>
                   <strong>Role:</strong>{' '}
-                  <Badge bg={roleBadge}>
+                  <Badge bg={roleBadge} className="text-uppercase">
                     {user.role}
                   </Badge>
                 </ListGroup.Item>
               </ListGroup>
-
               <div className="d-grid">
                 <Button
                   variant="outline-danger"

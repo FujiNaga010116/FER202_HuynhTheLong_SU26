@@ -3,9 +3,9 @@
  * TC-04 — Đăng nhập tài khoản 'admin' → Badge đỏ
  *
  * Yêu cầu sinh viên:
- *   - src/components/Dashboard.jsx
- *   - src/context/AuthContext.jsx  (AuthProvider, AuthContext)
- *   - src/hooks/useAuth.js
+ * - src/components/Dashboard.jsx
+ * - src/context/AuthContext.jsx  (AuthProvider, AuthContext)
+ * - src/hooks/useAuth.js
  */
 
 import { render, screen, act } from '@testing-library/react'
@@ -57,19 +57,20 @@ describe('TC-03 | Dashboard — tài khoản user thường', () => {
 
   test('hiển thị username', () => {
     renderDashboardWithUser(NORMAL_USER)
-    expect(screen.getByText(/user/i)).toBeInTheDocument()
+    // Chọn đúng phần tử chứa thông tin username trong list item
+    expect(screen.getByText('user', { selector: '.list-group-item' })).toBeInTheDocument()
   })
 
   test('Badge role hiển thị chữ "user"', () => {
     renderDashboardWithUser(NORMAL_USER)
-    // Tìm badge/element chứa text "user" (role)
-    const badge = screen.getByText(/^user$/i)
+    // Chỉ định rõ ràng tìm text "user" bên trong component Badge (.badge)
+    const badge = screen.getByText('user', { selector: '.badge' })
     expect(badge).toBeInTheDocument()
   })
 
   test('Badge role KHÔNG có class text-danger / bg-danger cho user thường', () => {
     renderDashboardWithUser(NORMAL_USER)
-    const badge = screen.getByText(/^user$/i)
+    const badge = screen.getByText('user', { selector: '.badge' })
     expect(badge.className).not.toMatch(/danger/i)
   })
 
@@ -91,20 +92,19 @@ describe('TC-04 | Dashboard — tài khoản admin', () => {
 
   test('Badge role hiển thị chữ "admin"', () => {
     renderDashboardWithUser(ADMIN_USER)
-    const badge = screen.getByText(/^admin$/i)
+    const badge = screen.getByText('admin', { selector: '.badge' })
     expect(badge).toBeInTheDocument()
   })
 
   test('Badge role admin có class danger (màu đỏ)', () => {
     renderDashboardWithUser(ADMIN_USER)
-    const badge = screen.getByText(/^admin$/i)
-    // React Bootstrap Badge bg="danger" → class "bg-danger" hoặc "text-bg-danger"
+    const badge = screen.getByText('admin', { selector: '.badge' })
     expect(badge.className).toMatch(/danger/i)
   })
 
   test('Badge role user thường có class success (màu xanh)', () => {
     renderDashboardWithUser(NORMAL_USER)
-    const badge = screen.getByText(/^user$/i)
+    const badge = screen.getByText('user', { selector: '.badge' })
     expect(badge.className).toMatch(/success/i)
   })
 })

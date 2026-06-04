@@ -5,11 +5,11 @@
  * Integration test: kết hợp AuthProvider + App
  *
  * Yêu cầu sinh viên:
- *   - src/App.jsx             (hoàn thiện skeleton)
- *   - src/main.jsx            (bọc AuthProvider)
- *   - src/components/AppNavbar.jsx
- *   - src/pages/LoginPage.jsx
- *   - src/pages/DashboardPage.jsx
+ * - src/App.jsx             (hoàn thiện skeleton)
+ * - src/main.jsx            (bọc AuthProvider)
+ * - src/components/AppNavbar.jsx
+ * - src/pages/LoginPage.jsx
+ * - src/pages/DashboardPage.jsx
  */
 
 import { render, screen, act, waitFor } from '@testing-library/react'
@@ -42,8 +42,7 @@ describe('TC-01 (integration) | App — trạng thái ban đầu', () => {
 
   test('không hiển thị Dashboard khi chưa đăng nhập', () => {
     renderApp()
-    expect(screen.queryByRole('button', { name: /đăng xuất|logout/i }))
-      .not.toBeInTheDocument()
+    expect(screen.queryByRole('button', { name: /đăng xuất|logout/i })).not.toBeInTheDocument()
   })
 })
 
@@ -54,14 +53,11 @@ describe('TC-03 (integration) | Login thành công → Dashboard', () => {
     const user = userEvent.setup()
     renderApp()
 
-    await user.type(
-      screen.getByPlaceholderText(/username/i) || screen.getByLabelText(/username/i),
-      'user'
-    )
-    await user.type(
-      screen.getByPlaceholderText(/password/i) || screen.getByLabelText(/password/i),
-      '123'
-    )
+    const usernameInput = screen.queryByPlaceholderText(/username/i) || screen.getByLabelText(/username/i)
+    const passwordInput = screen.queryByPlaceholderText(/password/i) || screen.getByLabelText(/password/i)
+
+    await user.type(usernameInput, 'user')
+    await user.type(passwordInput, '123')
     await user.click(screen.getByRole('button', { name: /đăng nhập/i }))
 
     await waitFor(() => {
@@ -75,14 +71,11 @@ describe('TC-03 (integration) | Login thành công → Dashboard', () => {
     const user = userEvent.setup()
     renderApp()
 
-    await user.type(
-      screen.getByPlaceholderText(/username/i) || screen.getByLabelText(/username/i),
-      'user'
-    )
-    await user.type(
-      screen.getByPlaceholderText(/password/i) || screen.getByLabelText(/password/i),
-      '123'
-    )
+    const usernameInput = screen.queryByPlaceholderText(/username/i) || screen.getByLabelText(/username/i)
+    const passwordInput = screen.queryByPlaceholderText(/password/i) || screen.getByLabelText(/password/i)
+
+    await user.type(usernameInput, 'user')
+    await user.type(passwordInput, '123')
     await user.click(screen.getByRole('button', { name: /đăng nhập/i }))
 
     await waitFor(() => {
@@ -94,18 +87,14 @@ describe('TC-03 (integration) | Login thành công → Dashboard', () => {
     const user = userEvent.setup()
     renderApp()
 
-    await user.type(
-      screen.getByPlaceholderText(/username/i) || screen.getByLabelText(/username/i),
-      'user'
-    )
-    await user.type(
-      screen.getByPlaceholderText(/password/i) || screen.getByLabelText(/password/i),
-      '123'
-    )
+    const usernameInput = screen.queryByPlaceholderText(/username/i) || screen.getByLabelText(/username/i)
+    const passwordInput = screen.queryByPlaceholderText(/password/i) || screen.getByLabelText(/password/i)
+
+    await user.type(usernameInput, 'user')
+    await user.type(passwordInput, '123')
     await user.click(screen.getByRole('button', { name: /đăng nhập/i }))
 
     await waitFor(() => {
-      // Tên user phải xuất hiện (Normal User hoặc tên bất kỳ từ data)
       expect(screen.getAllByText(/Normal User|user/i).length).toBeGreaterThan(0)
     })
   })
@@ -115,18 +104,15 @@ describe('TC-03 (integration) | Login thành công → Dashboard', () => {
 
 describe('TC-05 | Đăng xuất', () => {
   async function loginAs(userEvent, username, password) {
-    await userEvent.type(
-      screen.getByPlaceholderText(/username/i) || screen.getByLabelText(/username/i),
-      username
-    )
-    await userEvent.type(
-      screen.getByPlaceholderText(/password/i) || screen.getByLabelText(/password/i),
-      password
-    )
+    const usernameInput = screen.queryByPlaceholderText(/username/i) || screen.getByLabelText(/username/i)
+    const passwordInput = screen.queryByPlaceholderText(/password/i) || screen.getByLabelText(/password/i)
+
+    await userEvent.type(usernameInput, username)
+    await userEvent.type(passwordInput, password)
     await userEvent.click(screen.getByRole('button', { name: /đăng nhập/i }))
+    
     await waitFor(() => {
-      expect(screen.queryByRole('button', { name: /^đăng nhập$/i }))
-        .not.toBeInTheDocument()
+      expect(screen.queryByRole('button', { name: /^đăng nhập$/i })).not.toBeInTheDocument()
     })
   }
 
@@ -136,8 +122,7 @@ describe('TC-05 | Đăng xuất', () => {
 
     await loginAs(user, 'user', '123')
 
-    // Click logout (Dashboard hoặc Navbar)
-    const logoutBtn = screen.getByRole('button', { name: /đăng xuất|logout/i })
+    const logoutBtn = screen.getAllByRole('button', { name: /đăng xuất|logout/i })[0]
     await user.click(logoutBtn)
 
     await waitFor(() => {
@@ -171,7 +156,6 @@ describe('TC-05 | Đăng xuất', () => {
     await user.click(logoutBtn)
 
     await waitFor(() => {
-      // Badge admin/user không còn
       expect(screen.queryByText(/^admin$|^user$/i)).not.toBeInTheDocument()
     })
   })
